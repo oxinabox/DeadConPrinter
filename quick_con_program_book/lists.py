@@ -1,19 +1,6 @@
 from pylatex.base_classes import BaseLaTeXNamedContainer
 from pylatex.command import Command 
 
-class BaseList (BaseLaTeXNamedContainer):
-    """A base class for Lists: -- Enumerate, Itemize, Describe"""
-    def __init__(self, name, option=None, argument=None, **kwargs):
-        """
-        :param options:
-        :param argument:
-        :type name: str
-        :type options: str or list or :class:`parameters.Options` instance
-        :type argument: str
-        """
-        BaseLaTeXNamedContainer.__init__(self, name, option, argument, **kwargs)
-
-
         
 
 class Item(Command):
@@ -32,7 +19,7 @@ class Item(Command):
         Command.__init__(self, "item", argument, option, packages)
         
         
-class Description (BaseList):
+class Description (BaseLaTeXNamedContainer):
     """Describe class for keyword labels lists"""
     def __init__(self, option=None, argument=None, **kwargs):
         """
@@ -42,14 +29,14 @@ class Description (BaseList):
         :type options: str or list or :class:`parameters.Options` instance
         :type argument: str
         """
-        BaseList.__init__(self,'description', option, argument, **kwargs)
+        BaseLaTeXNamedContainer.__init__(self,'description', option, argument, **kwargs)
     
     def additem(self, label, description):
         self.append(Item(label, description))
         
         
 
-class Enumerate (BaseList):
+class Enumerate (BaseLaTeXNamedContainer):
     """Enumerate class for numbered list """
     def __init__(self, option=None, argument=None, **kwargs):
         """
@@ -59,12 +46,12 @@ class Enumerate (BaseList):
         :type options: str or list or :class:`parameters.Options` instance
         :type argument: str
         """
-        BaseList.__init__(self,'enumerate', option, argument, **kwargs)
+        BaseLaTeXNamedContainer.__init__(self,'enumerate', option, argument, **kwargs)
     
     def additem(self, itemtext):
         self.append(Item(itemtext))     
         
-class Itemize (BaseList):
+class Itemize (BaseLaTeXNamedContainer):
     """Itemize class for bullet point list"""
     def __init__(self, option=None, argument=None, **kwargs):
         """
@@ -74,7 +61,7 @@ class Itemize (BaseList):
         :type options: str or list or :class:`parameters.Options` instance
         :type argument: str
         """
-        BaseList.__init__(self,'itemize', option, argument, **kwargs)
+        BaseLaTeXNamedContainer.__init__(self,'itemize', option, argument, **kwargs)
     
     def additem(self,itemtext):
         self.append(Item(itemtext))  
