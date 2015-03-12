@@ -39,10 +39,10 @@ def write_timetable(sessions, doc, slot_length_minutes):
     from pylatex import Section, Subsection, Table, Package
     from pylatex.command import Command
     from pagelayout import Landscape
-    from venueordering import get_order
+    from venueordering import get_order_from_sessions
 
     doc.packages.append(Package('xcolor', options=['table']))
-    venue_columns = list(get_order([session.venues for session in sessions]))
+    venue_columns = get_order_from_sessions(sessions)
     
     dtv_bookings = get_day_venue_timeslots(sessions, slot_length_minutes)
     

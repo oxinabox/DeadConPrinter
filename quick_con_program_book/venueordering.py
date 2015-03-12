@@ -18,7 +18,10 @@ def get_order(connecteds):
     alphabet = reduce(set.union, connecteds, set())
     for order in permutations(alphabet):
         if check_order(connecteds,order):
-            return order
+            return list(order)
     #Otherwise:
     raise(CanNotOrderAdjacentElementsError())
     
+
+def get_order_from_sessions(sessions):
+    return get_order([session.venues for session in sessions])
