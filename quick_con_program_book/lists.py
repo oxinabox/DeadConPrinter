@@ -8,7 +8,7 @@ class Item(Command):
     A class that represents an item command.
     Should be used via the additem method on a List class
     """
-    def __init__(self, op1, op2=None, packages=None):
+    def __init__(self, op1, op2=None):
         if op2 is None:
             option = None
             argument = op1
