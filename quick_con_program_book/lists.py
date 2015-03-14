@@ -16,12 +16,12 @@ class Item(Command):
             argument = op2
             option = op1
 
-        Command.__init__(self, "item", argument, option, packages)
+        Command.__init__(self, "item", argument, option)
         
         
 class Description (BaseLaTeXNamedContainer):
     """Describe class for keyword labels lists"""
-    def __init__(self, option=None, argument=None, **kwargs):
+    def __init__(self):
         """
         :param options:
         :param argument:
@@ -29,7 +29,7 @@ class Description (BaseLaTeXNamedContainer):
         :type options: str or list or :class:`parameters.Options` instance
         :type argument: str
         """
-        BaseLaTeXNamedContainer.__init__(self,'description', option, argument, **kwargs)
+        BaseLaTeXNamedContainer.__init__(self,'description')
     
     def additem(self, label, description):
         self.append(Item(label, description))
