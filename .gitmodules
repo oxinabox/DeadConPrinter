@@ -1,0 +1,3 @@
+[submodule "quick_con_program_book/PyLaTeX"]
+	path = quick_con_program_book/PyLaTeX
+	url = git@github.com:oxinabox/PyLaTeX.git
