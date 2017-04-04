@@ -57,9 +57,9 @@ class session(object):
         self.start = parse_datetime(start_time_str)
         self.end = parse_datetime(end_time_str)
         self.title = normalise(title)
-        self.tags = load_list(tags_str)
+        self.tags = set(load_list(tags_str))
         self.people = load_list(people_str)
-        self.venues = load_list(venues_str)
+        self.venues = set(load_list(venues_str))
         self.description = normalise(description)
     
     @property
