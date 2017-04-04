@@ -1,4 +1,4 @@
-class CanNotOrderAdjacentElements(Exception):
+class CanNotOrderAdjacentElementsError(Exception):
     pass
 
 def is_consec(ordering, subset):
@@ -15,6 +15,8 @@ def check_order(connecteds, ordering):
 def get_order(connecteds):
     from itertools import permutations
     from functools import reduce
+    
+    connecteds = set(map(frozenset, connecteds))
     alphabet = reduce(set.union, connecteds, set())
     for order in permutations(alphabet):
         if check_order(connecteds,order):

@@ -28,16 +28,19 @@ def normalise(string):
     
 
 def load_list(csl):
-    ldlst =  str.split(normalise(csl), ', ')
-    if ldlst==['']:
-        return []
+    ldlst=[]
+    if type(csl) is list:
+        ldlst=csl
     else:
-        return [ll.strip() for ll in ldlst]
+        ldlst = str.split(csl, ', ')
+    
+    ldlst=[normalise(ll).strip() for ll in ldlst]
+    return [ll for ll in ldlst if len(ll)>0]
+    
     
 def parse_datetime(datetime_str):
     if type(datetime_str) is datetime:
         return datetime_str
-    
     
     import dateutil.parser
     
@@ -79,7 +82,7 @@ class session(object):
         return self.end - self.start
     
     def __str__(self):
-        str(ss.__dict__)
+        str(self.__dict__)
         
 def load_sessions_csv(csvpath):
     import csv
