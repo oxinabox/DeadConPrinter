@@ -1,3 +1,4 @@
+"""
 def get_tag_colors(sessions):
         from collections import defaultdict
         tag_occurances = defaultdict(lambda: 0)
@@ -12,18 +13,18 @@ def get_tag_colors(sessions):
         color_map = {tag:color for tag,color in zip(tags,colors)}
         return color_map
 
-""" #SPARE METHODS
+
 #Overwrite
 def get_tag_colors(sessions):
     return {' Needs Moderator': 'green',
     ' Needs Panelists': 'red'}
 
 
-
+"""
 #Overwrite
 def get_tag_colors(sessions):
     return {}
-
+"""
 #Overwrite
 def get_tag_colors(sessions):
     return {
