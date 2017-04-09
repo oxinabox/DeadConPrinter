@@ -1,5 +1,7 @@
-"""
-def get_tag_colors(sessions):
+import venueordering
+
+
+def get_tag_colors_auto(sessions):
         from collections import defaultdict
         tag_occurances = defaultdict(lambda: 0)
         for session in sessions:
@@ -14,19 +16,19 @@ def get_tag_colors(sessions):
         return color_map
 
 
-#Overwrite
-def get_tag_colors(sessions):
+
+def get_tag_colors_people(sessions):
     return {' Needs Moderator': 'green',
     ' Needs Panelists': 'red'}
 
 
-"""
-#Overwrite
-def get_tag_colors(sessions):
+
+
+def get_tag_colors_mono(sessions):
     return {}
-"""
-#Overwrite
-def get_tag_colors(sessions):
+
+
+def get_tag_colors_manual(sessions):
     return {
         "Anime" : "Maroon",
         "Art" : "Lime",
@@ -53,7 +55,7 @@ def get_tag_colors(sessions):
         "Video Games (outside the gamesroom)" : "CadetBlue",
         "workshop " : "RoyalBlue"
     }
-"""
+
 
 def with_units(func):
     def wrapper(*args, **kwargs):
@@ -63,14 +65,16 @@ def with_units(func):
     return wrapper
     
 class timetable_metric_solver(object):
-    import venueordering
-    #Hack Me to have specified order of venues
+   
     def __init__(self,sessions, hour_len, venue_width, units, 
-                 voffset=0,
-                 venue_orderer = venueordering.get_order_from_sessions):
+                 overlap=0, #Set this to the line thickness to allow overlap. It is excluded from position calculations
+                 voffset=0,             
+                 venue_orderer = venueordering.get_order_from_sessions,
+                 get_tag_colors = get_tag_colors_auto):
         
         
         self.voffset = voffset
+        self.overlap=overlap
         self.hour_len = hour_len
         self.venue_width = venue_width
         self.units = units
@@ -100,10 +104,11 @@ class timetable_metric_solver(object):
     @with_units
     def get_width(self,session):
         if session.venues:
-            return len(session.venues)*self.venue_width    
+            nVenues = len(session.venues)
         else:
             nVenues = len(self.venues_to_x.keys())
-            return nVenues*self.venue_width    
+            
+        return nVenues*self.venue_width + self.overlap   
     
     @with_units
     def get_venue_x(self,venue):
@@ -129,11 +134,11 @@ class timetable_metric_solver(object):
     
     @with_units
     def get_height(self,session):
-        return self.duration_to_height(session.duration)
+        return self.duration_to_height(session.duration) + self.overlap
     
     @with_units
     def get_venue_width(self):
-        return self.venue_width
+        return self.venue_width + self.overlap
     
     @property
     def venues(self):
