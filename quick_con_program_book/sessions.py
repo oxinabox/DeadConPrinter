@@ -12,18 +12,39 @@ DAYS = [  'Monday',
           'Saturday',
           'Sunday']
 
+from html.parser import HTMLParser
+
+class HtmlResolver(HTMLParser):
+    def __init__(self):
+        super().__init__()
+        self.result=""
+        
+    def handle_starttag(self, tag, attrs):
+        pass
+    
+    def handle_endtag(self, tag):
+        pass
+    
+    def handle_data(self, data):
+        self.result+=data
+
+
+def resolve_html(html_frag):
+    res = HtmlResolver()
+    res.feed(html_frag)
+    return res.result
+
+
+
 
 def normalise(string): 
-    import unicodedata
-    import pylatex.utils
+    string = resolve_html(string)
     string = string.replace("\r",'')
-    string = string.replace("\xA0", "~")
-    string = string.replace("â", "~")
+    string = string.replace("\xa0", " ")
     
-    while (r'\n\n' in string):
-        string=string.replace(r"\n\n",r"\n")
+    while ('\n\n' in string):
+        string=string.replace("\n\n","\n")
         
-    
     return string.strip()
     
 

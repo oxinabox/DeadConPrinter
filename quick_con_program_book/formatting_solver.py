@@ -140,6 +140,11 @@ class timetable_metric_solver(object):
     def get_venue_width(self):
         return self.venue_width + self.overlap
     
+    @with_units
+    def get_voffset(self):
+        return self.voffset
+    
+    
     @property
     def venues(self):
         return list(self.venues_to_x.keys())
