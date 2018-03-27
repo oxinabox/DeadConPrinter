@@ -69,18 +69,20 @@ class timetable_metric_solver(object):
     def __init__(self,sessions, hour_len, venue_width, units, 
                  overlap=0, #Set this to the line thickness to allow overlap. It is excluded from position calculations
                  voffset=0,             
-                 venue_orderer = venueordering.get_order_from_sessions,
+                 venue_order = None,
                  get_tag_colors = get_tag_colors_auto):
         
-        
+        if venue_order==None:
+            venue_order = venueordering.get_order_from_sessions(sessions),
+                
         self.voffset = voffset
         self.overlap=overlap
         self.hour_len = hour_len
         self.venue_width = venue_width
         self.units = units
         
-        self.venues_to_x = { name:ii*venue_width
-                                for ii, name in enumerate(venue_orderer(sessions))}
+        self.venues_to_x = {name:ii*venue_width 
+                                for ii, name in enumerate(venue_order)}
         
         from itertools import groupby
         self.day_starts = {date:min(map(lambda ss: ss.start, sessions))

@@ -1,4 +1,5 @@
 #CONFIG
+import re
 import pytz
 from datetime import *
 LOCAL_TIMEZONE = pytz.timezone("Australia/Perth")
@@ -30,26 +31,34 @@ class HtmlResolver(HTMLParser):
 
 
 def resolve_html(html_frag):
-    res = HtmlResolver()
-    res.feed(html_frag)
-    return res.result
+    oldtext = ""
+    text = html_frag
+    while text!=oldtext: #keep resolving HTML til no change
+        oldtext = text
+        res = HtmlResolver()
+        res.feed(text)
+        text = res.result
+    return text
 
 
 
 
 def normalise(string): 
     string = resolve_html(string)
+    string = resolve_html(string)
     string = string.replace("\r",'')
     string = string.replace("\xa0", " ")
     
-    while ('\n\n' in string):
-        string=string.replace("\n\n","\n")
+    string = re.sub(r"\n\s*\n", "\n", string)
         
     return string.strip()
     
 
 def load_list(csl):
     ldlst=[]
+    if type(csl) is float:
+        assert csl==float('nan')
+        return []
     if type(csl) is list:
         ldlst=csl
     else:
