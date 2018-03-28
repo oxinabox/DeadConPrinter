@@ -53,18 +53,17 @@ def normalise(string):
         
     return string.strip()
     
+def strip_titles(string):
+    return re.sub(r"\b(mr|mrs|dr|ms|mx)\b\s*","",string, flags=re.I)
 
 def load_list(csl):
     ldlst=[]
-    if type(csl) is float:
-        assert csl==float('nan')
-        return []
     if type(csl) is list:
         ldlst=csl
     else:
-        ldlst = str.split(csl, ', ')
+        ldlst = str.split(csl, ',')
     
-    ldlst=[normalise(ll).strip() for ll in ldlst]
+    ldlst=[normalise(ll).strip().replace("\n", " ") for ll in ldlst]
     return [ll for ll in ldlst if len(ll)>0]
     
     
@@ -88,7 +87,7 @@ class session(object):
         self.end = parse_datetime(end_time_str)
         self.title = normalise(title)
         self.tags = set(load_list(tags_str))
-        self.people = load_list(people_str)
+        self.people = list(map(strip_titles, load_list(people_str)))
         self.venues = set(load_list(venues_str))
         self.description = normalise(description)
     
